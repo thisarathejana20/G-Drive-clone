@@ -1,7 +1,7 @@
 "use server";
 
 import { ID, Query } from "node-appwrite";
-import { createAdminClient } from "../appwrite";
+import { createAdminClient, createSessionClient } from "../appwrite";
 import { appWriteConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
@@ -94,11 +94,33 @@ export const verifySecret = async ({
       path: "/",
       httpOnly: true,
       sameSite: "strict",
+      secure: true,
     });
 
     return parseStringify(session.$id);
   } catch (error) {
     console.error(error);
     throw new Error("Failed to verify secret");
+  }
+};
+
+export const getCurrentUser = async () => {
+  try {
+    const { account, database } = await createSessionClient();
+
+    const result = await account.get();
+
+    const user = await database.listDocuments(
+      appWriteConfig.databaseId,
+      appWriteConfig.userCollectionId,
+      [Query.equal("accountId", result.$id)]
+    );
+
+    if (user.total <= 0) return null;
+
+    return parseStringify(user.documents[0]);
+  } catch (error) {
+    console.error(error);
+    return null;
   }
 };
