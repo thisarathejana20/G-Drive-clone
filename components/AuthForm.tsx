@@ -57,7 +57,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
         email: values.email,
       });
 
-      setAccountId(user.accountId);
+      setAccountId(user);
     } catch {
       setErrorMessage("Failed to create account");
     } finally {
@@ -149,7 +149,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
         </form>
       </Form>
       {/* OTP Verification */}
-      {true && (
+      {accountId && (
         <OTPModal email={form.getValues("email")} accountId={accountId} />
       )}
     </>
