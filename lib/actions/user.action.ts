@@ -3,7 +3,6 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient } from "../appwrite";
 import { appWriteConfig } from "../appwrite/config";
-import { error } from "console";
 import { parseStringify } from "../utils";
 
 //server action
