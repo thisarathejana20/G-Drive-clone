@@ -145,8 +145,8 @@ export const signUserIn = async ({ email }: { email: string }) => {
     const existingUser = await getUserByEmail(email);
 
     if (existingUser) {
-      await sendEmailOTP({ email });
-      return parseStringify({ accountId: existingUser.accountId });
+      const accountId = await sendEmailOTP({ email });
+      return parseStringify(accountId);
     }
 
     return parseStringify({ accountId: null });
