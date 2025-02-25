@@ -393,13 +393,13 @@
     @apply flex h-[60px] justify-between px-5 sm:hidden !important;
   }
   .header-user {
-    @apply my-3 flex items-center gap-2 rounded-full p-1 text-light-100 sm:justify-center sm:bg-brand/10 lg:justify-start lg:p-3 !important;
+    @apply my-3 flex items-center gap-2 rounded-full p-1 sm:justify-center sm:bg-rose-400/10 lg:justify-start lg:p-3 !important;
   }
   .header-user-avatar {
     @apply aspect-square w-10 rounded-full object-cover !important;
   }
   .mobile-nav {
-    @apply h5 flex-1 gap-1 text-brand !important;
+    @apply h5 flex-1 gap-1 text-rose-400 !important;
   }
   .mobile-nav-list {
     @apply flex flex-1 flex-col gap-4 !important;
@@ -408,7 +408,7 @@
     @apply flex text-light-100 gap-4 w-full justify-start items-center h5 px-6 h-[52px] rounded-full !important;
   }
   .mobile-sign-out-button {
-    @apply h5 flex h-[52px] w-full items-center gap-4 rounded-full bg-brand/10 px-6 text-brand shadow-none transition-all hover:bg-brand/20 !important;
+    @apply h5 flex h-[52px] w-full items-center gap-4 rounded-full bg-rose-400/10 px-6 text-rose-400 shadow-none transition-all hover:bg-rose-400/20 !important;
   }
 
   /* OTP Modal */

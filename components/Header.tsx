@@ -19,6 +19,7 @@ const Header = () => {
               alt="logout"
               width={24}
               height={24}
+              className="w-6"
             />
           </Button>
         </form>
