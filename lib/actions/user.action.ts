@@ -5,6 +5,7 @@ import { createAdminClient, createSessionClient } from "../appwrite";
 import { appWriteConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 //server action
 //// ******* Create account flow
@@ -122,5 +123,19 @@ export const getCurrentUser = async () => {
   } catch (error) {
     console.error(error);
     return null;
+  }
+};
+
+export const signUserOut = async () => {
+  const { account } = await createSessionClient();
+
+  try {
+    await account.deleteSession("current");
+    (await cookies()).delete("appwrite-session");
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to sign out user");
+  } finally {
+    redirect("/sign-in");
   }
 };

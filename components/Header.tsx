@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import FileUploader from "./FileUploader";
 import Search from "./Search";
+import { signUserOut } from "@/lib/actions/user.action";
 
 const Header = () => {
   return (
@@ -12,7 +13,14 @@ const Header = () => {
       <div className="header-wrapper">
         {/* FileUploader */}
         <FileUploader />
-        <form>
+        {/* Since Header is a server component we cant handle button clicks */}
+        {/* React 19 introduced new feature to handle code blocks in server */}
+        <form
+          action={async () => {
+            "use server";
+            await signUserOut();
+          }}
+        >
           <Button type="submit" className="sign-out-button">
             <Image
               src="/assets/icons/logout.svg"
