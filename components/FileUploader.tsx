@@ -3,8 +3,9 @@
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";
+import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
 import Image from "next/image";
+import Thumbnails from "./Thumbnails";
 
 interface Props {
   ownerId: string;
@@ -13,11 +14,20 @@ interface Props {
 }
 
 const FileUploader = ({ ownerId, accountId, className }: Props) => {
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<File[]>([]);
 
-  const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    setFiles(acceptedFiles);
   }, []);
+
+  const handleRemoveFile = (
+    e: React.MouseEvent<HTMLImageElement>,
+    fileName: string
+  ) => {
+    e.stopPropagation();
+    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+  };
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
@@ -37,6 +47,39 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
           <h4 className="h-4">Uploading</h4>
           {files.map((file, index) => {
             const { type, extension } = getFileType(file.name);
+
+            return (
+              <li
+                key={`${file.name}-${index}`}
+                className="uploader-preview-item"
+              >
+                <div className="flex items-center gap-3">
+                  <Thumbnails
+                    type={type}
+                    extension={extension}
+                    url={convertFileToUrl(file)}
+                  />
+
+                  <div className="preview-item-name">
+                    {file.name}
+                    <Image
+                      src="/assets/icons/file-loader.gif"
+                      alt="loader"
+                      width={80}
+                      height={26}
+                    />
+                  </div>
+                </div>
+
+                <Image
+                  src="assets/icons/remove.svg"
+                  alt="remove"
+                  width={24}
+                  height={24}
+                  onClick={(e) => handleRemoveFile(e, file.name)}
+                />
+              </li>
+            );
           })}
         </ul>
       )}
