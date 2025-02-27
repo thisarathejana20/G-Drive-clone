@@ -5,14 +5,20 @@ import FileUploader from "./FileUploader";
 import Search from "./Search";
 import { signUserOut } from "@/lib/actions/user.action";
 
-const Header = () => {
+const Header = ({
+  userId,
+  accountId,
+}: {
+  userId: string;
+  accountId: string;
+}) => {
   return (
     <header className="header">
       {/* Search */}
       <Search />
       <div className="header-wrapper">
         {/* FileUploader */}
-        <FileUploader />
+        <FileUploader accountId={accountId} ownerId={userId} />
         {/* Since Header is a server component we cant handle button clicks */}
         {/* React 19 introduced new feature to handle code blocks in server */}
         <form

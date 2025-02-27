@@ -24,7 +24,7 @@ interface Props {
   email: string;
   avatar: string;
   accountId: string;
-  ownerId: string;
+  $id: string;
 }
 
 const MobileNavigation = ({
@@ -32,7 +32,7 @@ const MobileNavigation = ({
   email,
   avatar,
   accountId,
-  ownerId,
+  $id: ownerId,
 }: Props) => {
   const [open, setOpen] = useState(false);
   const pathName = usePathname();
@@ -101,7 +101,7 @@ const MobileNavigation = ({
             </nav>
             <Separator className="mb-4" />
             <div className="flex flex-col justify-between gap-5">
-              <FileUploader />
+              <FileUploader ownerId={ownerId} accountId={accountId} />
             </div>
             <Button
               onClick={() => signUserOut()}

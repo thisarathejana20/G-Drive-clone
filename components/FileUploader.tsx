@@ -6,6 +6,10 @@ import { Button } from "./ui/button";
 import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
 import Image from "next/image";
 import Thumbnails from "./Thumbnails";
+import { MAX_FILE_SIZE } from "@/constants";
+import { toast } from "sonner";
+import { usePathname } from "next/navigation";
+import { uploadFile } from "@/lib/actions/file.actions";
 
 interface Props {
   ownerId: string;
@@ -14,11 +18,40 @@ interface Props {
 }
 
 const FileUploader = ({ ownerId, accountId, className }: Props) => {
+  const path = usePathname();
   const [files, setFiles] = useState<File[]>([]);
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    setFiles(acceptedFiles);
-  }, []);
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      setFiles(acceptedFiles);
+
+      const uploadPromises = acceptedFiles.map(async (file) => {
+        if (file.size > MAX_FILE_SIZE) {
+          setFiles((prevFiles) =>
+            prevFiles.filter((f) => f.name !== file.name)
+          );
+
+          return toast(
+            `File ${file.name} is too large. Please upload files less than ${
+              MAX_FILE_SIZE / 1024 / 1024
+            } MB.`
+          );
+        }
+
+        return uploadFile({ file, ownerId, accountId, path }).then(
+          (uploadedFile) => {
+            if (uploadedFile) {
+              setFiles((prevFiles) =>
+                prevFiles.filter((f) => f.name !== file.name)
+              );
+            }
+          }
+        );
+      });
+      await Promise.all(uploadPromises);
+    },
+    [ownerId, accountId, path]
+  );
 
   const handleRemoveFile = (
     e: React.MouseEvent<HTMLImageElement>,
