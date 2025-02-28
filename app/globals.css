@@ -256,7 +256,7 @@
     @apply body-2 text-light-100/80 !important;
   }
   .empty-list {
-    @apply body-1 mt-10 text-center text-light-200 !important;
+    @apply body-1 mt-10 text-center !important;
   }
 
   /* Type page */
@@ -330,7 +330,7 @@
 
   /* Card */
   .file-card {
-    @apply flex cursor-pointer flex-col gap-6 rounded-[18px] bg-white p-5 shadow-sm transition-all hover:shadow-drop-3 !important;
+    @apply flex cursor-pointer flex-col gap-6 rounded-[18px] bg-white p-5 shadow-sm transition-all !important;
   }
   .file-card-details {
     @apply flex flex-col gap-2 text-light-100 !important;
