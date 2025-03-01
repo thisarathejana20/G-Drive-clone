@@ -278,10 +278,10 @@
     @apply body-2 shad-no-focus h-[52px] w-full rounded-full border px-4 shadow-drop-1 !important;
   }
   .delete-confirmation {
-    @apply text-center text-light-100 !important;
+    @apply text-center !important;
   }
   .delete-file-name {
-    @apply font-medium text-brand-100 !important;
+    @apply font-medium text-rose-400 !important;
   }
   .modal-cancel-button {
     @apply rounded-full text-rose-400 bg-white hover:bg-transparent !important;
